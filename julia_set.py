@@ -1,5 +1,10 @@
 import time
 from functools import wraps
+import pstats
+
+p = pstats.Stats("profile.stats")
+p.sort_stats("cumulative")
+p.print_stats()
 
 def timefn(fn):
     @wraps(fn)
@@ -53,8 +58,8 @@ def calc_pure_python(desired_width, max_iterations):
             zs.append(complex(xcoord, ycoord))
             cs.append(complex(c_real, c_imag))
 
-    print("Length of x:", len(x))
-    print("Total elements:", len(zs))
+    # print("Length of x:", len(x))
+    # print("Total elements:", len(zs))
     start_time = time.time()
     output = calculate_z_serial_purepython(max_iterations, zs, cs)
     end_time = time.time()
@@ -75,12 +80,12 @@ def calculate_z_serial_purepython(maxiter, zs, cs):
         c = cs[i]
         
         while abs(z) < 2 and n < maxiter:
-            print(f"z = {z} c = {c} z*z+c = {z*z+c}")
+            # print(f"z = {z} c = {c} z*z+c = {z*z+c}")
             z = z * z + c
-            print(z)
+            # print(z)
             
             n += 1
-            print(f"Position: {i} Iteration: {n} Magnitude: {abs(z)}")
+            # print(f"Position: {i} Iteration: {n} Magnitude: {abs(z)}")
 
         output[i] = n
     return output
