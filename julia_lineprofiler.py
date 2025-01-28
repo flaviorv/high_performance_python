@@ -53,3 +53,4 @@ if __name__ == "__main__":
     calc_pure_python(desired_width=1000, max_iterations=300)
 
     #kernprof -l -v julia_lineprofiler.py
+    #python3 -m memory_profiler julia_lineprofiler.py
