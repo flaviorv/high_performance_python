@@ -1,6 +1,6 @@
 import time
 from without_cython import calculate_z_serial_purepython
-import static_typing, with_numpy, dynamic_typing
+import static_typing, with_numpy, dynamic_typing, parallel
 import numpy as np
 
 def calculate_cython_time(desired_width, max_iterations):
@@ -49,15 +49,23 @@ def calculate_cython_time(desired_width, max_iterations):
     secs = end_time - start_time
     print("Static typing took", secs, "seconds")
 
-    start_time = time.time()
     _zs = np.array(zs)
     _cs = np.array(cs)
+
+    start_time = time.time()
     output = with_numpy.calculate_z(max_iterations, _zs, _cs)
     end_time = time.time()
     secs = end_time - start_time
-    print("Static typing took", secs, "seconds")
+    print("With numpy took", secs, "seconds")
+
+    start_time = time.time()
+    output = parallel.calculate_z(max_iterations, _zs, _cs)
+    end_time = time.time()
+    secs = end_time - start_time
+    print("With parallelization took", secs, "seconds")
 
     assert sum(output) == 33219980
+
 
 if __name__ == "__main__":
     calculate_cython_time(desired_width=1000, max_iterations=300)
